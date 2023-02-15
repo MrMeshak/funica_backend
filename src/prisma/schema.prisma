@@ -11,7 +11,142 @@ datasource db {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
+  id String @id
+
+  email    String @unique
+  password String
+
+  firstname  String
+  lastname   String
+  profileImg String @default("defaultImg")
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  addresses Address[]
+  orders    Order[]
+}
+
+model Address {
+  id         String    @id
+  isArchived DateTime?
+
+  name       String
+  addressLn1 String
+  addressLn2 String
+  city       String
+  state      String
+  country    String
+  postCode   String
+
+  user           User    @relation(fields: [userId], references: [id])
+  userId         String
+  ordersBilling  Order[] @relation("orderBillingAddress")
+  ordersShipping Order[] @relation("orderShippingAddress")
+}
+
+model Order {
+  id         String    @id
+  isArchived DateTime?
+
+  orderStatus OrderStatus
+
+  isPaid           DateTime?
+  paymentMethod    PaymentMethod
+  billingAddress   Address       @relation("orderBillingAddress", fields: [billingAddressId], references: [id])
+  billingAddressId String
+
+  isShipped         DateTime?
+  shippingType      ShippingType
+  shippingCost      Int
+  trackingId        String       @default("")
+  shippingAddress   Address      @relation("orderShippingAddress", fields: [shippingAddressId], references: [id])
+  shippingAddressId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User        @relation(fields: [userId], references: [id])
+  userId String
+  items  OrderItem[]
+}
+
+model OrderItem {
+  id       String @id
+  quantity Int
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  variation          ProductVariation @relation(fields: [productVariationId], references: [id])
+  productVariationId String
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+}
+
+model Product {
+  id         String    @id
+  isArchived DateTime?
+
+  name        String
+  productType String
+  categories  String[]
+  description String
+
+  price Int
+
+  variations ProductVariation[]
+  reviews    Review[]
+  orderItems OrderItem[]
+}
+
+model ProductVariation {
+  id         String    @id
+  isArchived DateTime?
+  color      String
+  size       String
+  images     String[]
+
+  product    Product     @relation(fields: [productId], references: [id])
+  productId  String
+  orderItems OrderItem[]
+}
+
+model Review {
+  id         String    @id
+  isArchived DateTime?
+
+  rating      Int
+  description String
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+enum OrderStatus {
+  PENDING
+  AWAITING_PAYMENT
+  AWAITING_FULLFILMENT
+  AWAITING_SHIPPING
+  AWAITING_PICKUP
+  PARTIALLY_SHIPPED
+  COMPLETED
+  SHIPPED
+  CANCELED
+  DECLINED
+  REFUNDED
+  DISPUTED
+  MANUAL_VERIFICATION_REQUIRED
+  PARTIALLY_REFUNDED
+}
+
+enum ShippingType {
+  STANDARD
+  EXPRESS
+}
+
+enum PaymentMethod {
+  CARD
+  CASH
 }

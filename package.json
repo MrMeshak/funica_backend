@@ -9,10 +9,11 @@
     "start": "node dist/server.js",
     "start:docker": "npm run build && node --inspect=0.0.0.0 dist/server.js",
     "rebuild:be": "docker compose build backend && docker compose rm --stop backend && docker compose up -d backend",
-    "db:console": "docker compose exec postgres psql -h localhost -U postgres -d webapp_dev",
+    "db:console": "docker compose exec postgres psql -h localhost -U postgres -d funica_db_dev",
     "db:migrate": "npx prisma migrate dev",
     "db:migrate:docker": "docker compose run backend npm run db:migrate",
     "db:seed": "node dist/prisma/seed.js",
+    "db:seed:docker": "docker compose exec backend node dist/prisma/seed/seed.js",
     "copy:graphql": "copyfiles --flat src/graphql/*.graphql dist/graphql"
   },
   "author": "",
@@ -22,7 +23,8 @@
     "@prisma/client": "^4.9.0",
     "@tsconfig/node18": "^1.0.1",
     "graphql": "^16.6.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@graphql-codegen/typescript": "^3.0.0",
