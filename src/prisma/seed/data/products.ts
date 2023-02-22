@@ -37,8 +37,9 @@ export const products: Prisma.ProductCreateInput[] = [
   {
     id: productIds.malm.id,
     name: 'Malm',
-    productType: 'Chest of 4 draws',
+    productType: 'drawers',
     categories: ['storage', 'drawers', 'chest'],
+    searchTags: ['drawers', 'chest', 'drawer', 'storage'],
     description:
       'A clean expression that fits right in, in the bedroom or wherever you place it. Smooth-running drawers and in a choice of finishes – pick your favourite. Psst! Please attach to the wall.',
 
@@ -70,8 +71,9 @@ export const products: Prisma.ProductCreateInput[] = [
   {
     id: productIds.pinntorp.id,
     name: 'Pinntorp',
-    productType: 'Table',
+    productType: 'table',
     categories: ['furniture', 'tables & desks', 'dining tables'],
+    searchTags: ['table', 'dining table', 'dinner table', 'dinner'],
     description:
       'This wooden table seats 6 people comfortably. Inspired by Swedish furniture tradition, the simple design adds warmth and character, making this a table for talking and sharing great moments together.',
 
@@ -91,12 +93,13 @@ export const products: Prisma.ProductCreateInput[] = [
   {
     id: productIds.omar.id,
     name: 'Ommar',
-    productType: '1 shelf section',
+    productType: 'shelf',
     categories: [
       'storage & organisation',
       'bookcases & shelving',
-      'storage shelves & units'
+      'storage shelves'
     ],
+    searchTags: ['storage', 'shelf', 'shelves', 'organise', 'organising'],
     description:
       'OMAR storage offers lots of room in a kitchen, bathroom and hallway. Things like food or towels lie visible and secure on the metal shelves. Easy to assemble and complete with storage from the same series.',
 
@@ -122,8 +125,9 @@ export const products: Prisma.ProductCreateInput[] = [
   {
     id: productIds.lisbo.id,
     name: 'Lisbo',
-    productType: 'Chair',
+    productType: 'chair',
     categories: ['furniture', 'chairs', 'dining chairs'],
+    searchTags: ['chair', 'dining chair', 'dining chairs', 'dining'],
     description:
       'A hand-crafted expression that is both comfy and sturdy to suit even the liveliest family members. Ideal for all the activities around the table like eating, playing games, drawing and homework.',
 
@@ -149,8 +153,9 @@ export const products: Prisma.ProductCreateInput[] = [
   {
     id: productIds.voxlov.id,
     name: 'Voxlov',
-    productType: 'Chair',
+    productType: 'chair',
     categories: ['furniture', 'chairs', 'dining chairs'],
+    searchTags: ['chair', 'dining chair', 'dining chairs', 'dining'],
     description:
       'A gift from nature, shaped and bent for optimal beauty and comfort. The sturdy frame is made of hardwearing bamboo, and handwoven paper twine creates a strong seat with a resilient feel when you sit on it.',
 

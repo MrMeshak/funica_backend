@@ -1,13 +1,22 @@
 import { readFileSync } from 'node:fs';
-import path from 'path';
+import { PrismaClient } from '@prisma/client';
 import { ApolloServer } from '@apollo/server';
-import { rootResolvers } from '../graphql/resolvers/rootResolvers.js';
+import { baseResolver } from '../graphql/base/baseResolver.js';
 
-const rootTypeDefs = readFileSync('./dist/graphql/rootSchema.graphql', 'utf8');
+interface IGraphqlContext{
+  prisma: PrismaClient;
+  
+}
 
-const server = new ApolloServer({
-  typeDefs: [rootTypeDefs],
-  resolvers: rootResolvers,
+const baseTypeDefs = readFileSync(
+  './dist/graphql/base/baseSchema.graphql',
+  'utf8'
+);
+
+
+const server = new ApolloServer<IGraphqlContext>({
+  typeDefs: [baseTypeDefs],
+  resolvers: baseResolver
 });
 
 export default server;

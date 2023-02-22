@@ -23,8 +23,10 @@ model User {
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  addresses Address[]
-  orders    Order[]
+  addresses         Address[]
+  orders            Order[]
+  favoritedProducts Product[]
+  reviewedProducts  Review[]
 }
 
 model Address {
@@ -92,19 +94,25 @@ model Product {
   name        String
   productType String
   categories  String[]
+  searchTags  String[]
   description String
 
   price Int
 
+  rating Int
+
   variations ProductVariation[]
   reviews    Review[]
   orderItems OrderItem[]
+
+  favoritedBy User[]
 }
 
 model ProductVariation {
   id         String    @id
   isArchived DateTime?
   color      String
+  colorHex   String
   size       String
   images     String[]
 
@@ -122,6 +130,9 @@ model Review {
 
   product   Product @relation(fields: [productId], references: [id])
   productId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 enum OrderStatus {

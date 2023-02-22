@@ -1,0 +1,7 @@
+type Query {
+  productPage: ProductPage
+}
+
+type ProductPage {
+  product(id: ID): Product
+}

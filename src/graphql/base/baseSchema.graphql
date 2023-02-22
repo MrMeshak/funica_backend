@@ -1,0 +1,118 @@
+type User {
+  id: ID!
+
+  email: String!
+
+  firstname: String
+  lastname: String!
+  profileImg: String!
+
+  createdAt: String!
+  updatedAt: String!
+
+  addresses: [Address]
+  orders: [Order]
+  favoriteProducts: [Product]
+}
+
+type Address {
+  id: ID!
+
+  name: String
+  addressLn1: String
+  addressLn2: String
+  city: String
+  state: String
+  country: String
+  postCode: String
+}
+
+type Order {
+  id: ID!
+
+  orderStatus: OrderStatus
+  isPaid: String
+  paymentMethod: PaymentMethod
+  billingAddress: Address
+
+  isShipped: String
+  shippingType: ShippingType
+  shippingAddress: Address
+
+  createdAt: String!
+  updatedAt: String!
+
+  user: User!
+  items: [OrderItem]
+}
+
+type OrderItem {
+  id: ID!
+  quantity: Int!
+
+  product: Product!
+  variation: ProductVariation!
+}
+
+type Product {
+  id: ID!
+
+  name: String!
+  prductType: String!
+  categories: [String]
+  description: String!
+  price: Int!
+
+  rating: Int
+
+  isFavorited: Boolean
+
+  variations: [ProductVariation]
+
+  reviews: [Review]
+}
+
+type ProductVariation {
+  id: ID!
+
+  color: String
+  colorHex: String
+  size: String
+  images: [String]
+}
+
+type Review {
+  id: ID!
+
+  rating: Int!
+  description: String
+
+  user: User
+}
+
+enum OrderStatus {
+  PENDING
+  AWAITING_PAYMENT
+  AWAITING_FULLFILMENT
+  AWAITING_SHIPPING
+  AWAITING_PICKUP
+  PARTIALLY_SHIPPED
+  COMPLETED
+  SHIPPED
+  CANCELED
+  DECLINED
+  REFUNDED
+  DISPUTED
+  MANUAL_VERIFICATION_REQUIRED
+  PARTIALLY_REFUNDED
+}
+
+enum ShippingType {
+  STANDARD
+  EXPRESS
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+}
