@@ -34,7 +34,7 @@ export const authMiddleware = (context: IAuthMiddlewareContext) => {
       return {
         isAuth: false,
         userId: '',
-        error: 'invalid authentication token'
+        error: 'invalid authentication token (A)'
       };
     }
 
@@ -48,7 +48,7 @@ export const authMiddleware = (context: IAuthMiddlewareContext) => {
       return {
         isAuth: false,
         userId: '',
-        error: 'invalid authentication token'
+        error: 'invalid authentication token (B)'
       };
     }
 
