@@ -1,7 +1,9 @@
 overwrite: true
-schema: './src/graphql/base/*.graphql'
+schema: 'src/graphql/**/*.graphql'
 generates:
   ./src/graphql/graphqlTypes.ts:
     plugins:
-      - '@graphql-codegen/typescript'
-      - '@graphql-codegen/typescript-resolvers'
+      - 'typescript'
+      - 'typescript-resolvers'
+    config:
+      contextType: ../apollo/index.ts#IGraphqlContext

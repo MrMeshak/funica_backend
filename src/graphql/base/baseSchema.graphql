@@ -11,8 +11,8 @@ type User {
   lastname: String!
   profileImg: String!
 
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 
   addresses: [Address]
   orders: [Order]
@@ -43,8 +43,8 @@ type Order {
   shippingType: ShippingType
   shippingAddress: Address
 
-  createdAt: String!
-  updatedAt: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 
   user: User!
   items: [OrderItem]
@@ -119,4 +119,24 @@ enum ShippingType {
 enum PaymentMethod {
   CASH
   CARD
+}
+
+scalar DateTime
+
+interface BaseError {
+  message: String!
+}
+
+type InvalidInputError implements BaseError {
+  message: String!
+  invalidFields: [InvalidFieldError]!
+}
+
+type InvalidFieldError implements BaseError {
+  field: String!
+  message: String!
+}
+
+type InvalidCredentialsError implements BaseError {
+  message: String!
 }

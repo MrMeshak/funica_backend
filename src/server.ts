@@ -9,7 +9,7 @@ const port = Number(process.env.PORT ?? 8080);
 const startServer = async () => {
   const { url } = await startStandaloneServer(server, {
     listen: { port: port },
-    context: async ({ req }) => await generateContext(req)
+    context: async ({ req, res }) => await generateContext(req, res)
   });
   console.log(`Server is ready at: ${url}`);
 };
