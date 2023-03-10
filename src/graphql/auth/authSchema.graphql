@@ -1,9 +1,22 @@
 type Query {
-  login(email: String!, password: String!): LoginResult
+  login(input: LoginInput!): LoginResult
 }
 
 type Mutation {
-  signup(email: String, password: String, firstname: String, lastname: String): User
+  signup(input: SignupInput!): SignupResult
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
 union LoginResult = User | InvalidInputError | InvalidCredentialsError
+
+input SignupInput {
+  email: String!
+  password: String!
+  firstname: String!
+  lastname: String!
+}
+
+union SignupResult = User | InvalidInputError

@@ -7,3 +7,5 @@ generates:
       - 'typescript-resolvers'
     config:
       contextType: ../apollo/index.ts#IGraphqlContext
+      makeResolverTypeCallable: true
+      noSchemaStitching: true

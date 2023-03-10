@@ -98,19 +98,21 @@ export type LibraryPageLibraryArgs = {
   sort?: InputMaybe<Sort>;
 };
 
+export type LoginInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type LoginResult = InvalidCredentialsError | InvalidInputError | User;
 
 export type Mutation = {
   __typename?: 'Mutation';
-  signup?: Maybe<User>;
+  signup?: Maybe<SignupResult>;
 };
 
 
 export type MutationSignupArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  firstname?: InputMaybe<Scalars['String']>;
-  lastname?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
+  input: SignupInput;
 };
 
 export type Order = {
@@ -203,8 +205,7 @@ export type Query = {
 
 
 export type QueryLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  input: LoginInput;
 };
 
 export type Review = {
@@ -219,6 +220,15 @@ export enum ShippingType {
   Express = 'EXPRESS',
   Standard = 'STANDARD'
 }
+
+export type SignupInput = {
+  email: Scalars['String'];
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type SignupResult = InvalidInputError | User;
 
 export enum Sort {
   PriceAsc = 'PRICE_ASC',
@@ -247,11 +257,7 @@ export type User = {
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
-
-export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
-  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
-};
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -326,6 +332,7 @@ export type ResolversTypes = {
   InvalidInputError: ResolverTypeWrapper<InvalidInputError>;
   Library: ResolverTypeWrapper<Library>;
   LibraryPage: ResolverTypeWrapper<LibraryPage>;
+  LoginInput: LoginInput;
   LoginResult: ResolversTypes['InvalidCredentialsError'] | ResolversTypes['InvalidInputError'] | ResolversTypes['User'];
   Mutation: ResolverTypeWrapper<{}>;
   Order: ResolverTypeWrapper<Order>;
@@ -338,6 +345,8 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Review: ResolverTypeWrapper<Review>;
   ShippingType: ShippingType;
+  SignupInput: SignupInput;
+  SignupResult: ResolversTypes['InvalidInputError'] | ResolversTypes['User'];
   Sort: Sort;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
@@ -358,6 +367,7 @@ export type ResolversParentTypes = {
   InvalidInputError: InvalidInputError;
   Library: Library;
   LibraryPage: LibraryPage;
+  LoginInput: LoginInput;
   LoginResult: ResolversParentTypes['InvalidCredentialsError'] | ResolversParentTypes['InvalidInputError'] | ResolversParentTypes['User'];
   Mutation: {};
   Order: Order;
@@ -367,6 +377,8 @@ export type ResolversParentTypes = {
   ProductVariation: ProductVariation;
   Query: {};
   Review: Review;
+  SignupInput: SignupInput;
+  SignupResult: ResolversParentTypes['InvalidInputError'] | ResolversParentTypes['User'];
   String: Scalars['String'];
   User: User;
 };
@@ -439,7 +451,7 @@ export type LoginResultResolvers<ContextType = IGraphqlContext, ParentType exten
 };
 
 export type MutationResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  signup?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationSignupArgs>>;
+  signup?: Resolver<Maybe<ResolversTypes['SignupResult']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'input'>>;
 };
 
 export type OrderResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Order'] = ResolversParentTypes['Order']> = {
@@ -498,7 +510,7 @@ export type QueryResolvers<ContextType = IGraphqlContext, ParentType extends Res
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   homePage?: Resolver<Maybe<ResolversTypes['HomePage']>, ParentType, ContextType>;
   libraryPage?: Resolver<Maybe<ResolversTypes['LibraryPage']>, ParentType, ContextType>;
-  login?: Resolver<Maybe<ResolversTypes['LoginResult']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'email' | 'password'>>;
+  login?: Resolver<Maybe<ResolversTypes['LoginResult']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'input'>>;
   productPage?: Resolver<Maybe<ResolversTypes['ProductPage']>, ParentType, ContextType>;
 };
 
@@ -508,6 +520,10 @@ export type ReviewResolvers<ContextType = IGraphqlContext, ParentType extends Re
   rating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SignupResultResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['SignupResult'] = ResolversParentTypes['SignupResult']> = {
+  __resolveType: TypeResolveFn<'InvalidInputError' | 'User', ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -544,6 +560,7 @@ export type Resolvers<ContextType = IGraphqlContext> = {
   ProductVariation?: ProductVariationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Review?: ReviewResolvers<ContextType>;
+  SignupResult?: SignupResultResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 
