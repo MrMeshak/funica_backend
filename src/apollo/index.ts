@@ -7,6 +7,7 @@ import _ from 'lodash';
 import prisma from '../prisma/prismaClient.js';
 import { authResolver } from '../graphql/auth/authResolver.js';
 import { baseResolver } from '../graphql/base/baseResolver.js';
+import { loginPageResolver } from '../graphql/loginPage/loginPageResolver.js';
 
 export interface IGraphqlContext {
   prisma: PrismaClient;
@@ -29,11 +30,13 @@ export const generateContext = async (
 };
 
 const baseTypeDefs = readFileSync('./dist/graphql/base/baseSchema.graphql', 'utf8');
+const baseUITypeDefs = readFileSync('./dist/graphql/base/baseUISchema.graphql', 'utf8');
 const authTypeDefs = readFileSync('./dist/graphql/auth/authSchema.graphql', 'utf8');
+const loginPageTypeDefs = readFileSync('./dist/graphql/loginPage/loginPageSchema.graphql', 'utf8');
 
 const server = new ApolloServer<IGraphqlContext>({
-  typeDefs: [baseTypeDefs, authTypeDefs],
-  resolvers: _.merge({}, baseResolver, authResolver)
+  typeDefs: [baseTypeDefs, baseUITypeDefs, authTypeDefs, loginPageTypeDefs],
+  resolvers: _.merge({}, baseResolver, authResolver, loginPageResolver)
 });
 
 export default server;

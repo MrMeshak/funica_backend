@@ -33,7 +33,7 @@
     "lodash": "^4.17.21",
     "ts-jest-resolver": "^2.0.0",
     "typescript": "^4.9.5",
-    "uuidv4": "^6.2.13",
+    "uuid": "^9.0.0",
     "validator": "^13.9.0"
   },
   "devDependencies": {
@@ -47,6 +47,7 @@
     "@types/jest": "^29.4.0",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
+    "@types/uuid": "^9.0.1",
     "@types/validator": "^13.7.12",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",

@@ -3,31 +3,19 @@ import { Prisma } from '@prisma/client';
 export const userIds = {
   michael: {
     id: '1f4b7ccd-2b82-479d-a647-098d7335bab2',
-    addressId: [
-      '3712151f-d382-4fd5-9133-cd955a2b2268',
-      '26f40a1a-9795-48a9-8bb4-e7968f30b72f'
-    ]
+    addressId: ['3712151f-d382-4fd5-9133-cd955a2b2268', '26f40a1a-9795-48a9-8bb4-e7968f30b72f']
   },
   issac: {
     id: 'd00da75c-393a-454d-b29a-6da12829b837',
-    addressId: [
-      '67585eec-bdd6-4408-baa6-93a4db7f7948',
-      '3bc812a1-952b-4f85-a508-61e7abe90679'
-    ]
+    addressId: ['67585eec-bdd6-4408-baa6-93a4db7f7948', '3bc812a1-952b-4f85-a508-61e7abe90679']
   },
   leanne: {
     id: '2c7e8c30-b8f9-4c62-8f4a-c933b4775b9b',
-    addressId: [
-      '82d1a632-d012-4baf-ac2e-0ed4988b1f4d',
-      'b7c4193d-dd7f-4250-aa32-7000eb9fec5e'
-    ]
+    addressId: ['82d1a632-d012-4baf-ac2e-0ed4988b1f4d', 'b7c4193d-dd7f-4250-aa32-7000eb9fec5e']
   },
   ervin: {
     id: 'a3da1094-be66-4700-92cc-086f63a6bc36',
-    addressId: [
-      'a3da1094-be66-4700-92cc-086f63a6bc36',
-      '59212991-78d5-4b0a-8d5c-b5b357e07cd0'
-    ]
+    addressId: ['a3da1094-be66-4700-92cc-086f63a6bc36', '59212991-78d5-4b0a-8d5c-b5b357e07cd0']
   }
 };
 
@@ -36,7 +24,7 @@ export const users: Prisma.UserCreateInput[] = [
     id: userIds.michael.id,
 
     email: 'michaellawson@test.com',
-    password: 'hashedPassword',
+    password: '$2y$10$tVywZ.RncRiyCUqoPfFKgOsJJxZUr5AC4FIaBe.aSPUS1PlP5kTr6', //password: Password1!
 
     firstname: 'Michael',
     lastname: 'Lawson',
@@ -74,7 +62,7 @@ export const users: Prisma.UserCreateInput[] = [
     id: userIds.issac.id,
 
     email: 'issaclebsack@test.com',
-    password: 'hashedPassword',
+    password: '$2y$10$HJENFqB3ncerbiDw.fGISeKOA4yx76xaPGBcdF79bIX68toCcuWgu', //password: Password1!
 
     firstname: 'Issac',
     lastname: 'Lebsack',
@@ -112,7 +100,7 @@ export const users: Prisma.UserCreateInput[] = [
     id: userIds.leanne.id,
 
     email: 'leannegraham@test.com',
-    password: 'hashedPassword',
+    password: '$2y$10$sJ1tFz.V4zhwzUf2G5cUwuKC / lo.kYCXOoK.odxIupVrAaiGox3NO', //password: Password1!
 
     firstname: 'Leanne',
     lastname: 'Graham',
@@ -149,7 +137,7 @@ export const users: Prisma.UserCreateInput[] = [
     id: userIds.ervin.id,
 
     email: 'ervinhowell@test.com',
-    password: 'hashedPassword',
+    password: '$2y$10$k53KCA3MeLziu8ebSgHRteC7bhy//m4hZM32IY27s54UHx8lwv2Bm', //password: Password1!
 
     firstname: 'Ervin',
     lastname: 'Howell',

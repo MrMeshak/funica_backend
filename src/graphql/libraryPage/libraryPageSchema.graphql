@@ -3,11 +3,7 @@ type Query {
 }
 
 type LibraryPage {
-  Library(
-    filterCategory: Category
-    filterPrice: FilterPrice
-    sort: Sort
-  ): Library
+  Library(filterCategory: Category, filterPrice: FilterPrice, sort: Sort): Library
 }
 
 type Library {

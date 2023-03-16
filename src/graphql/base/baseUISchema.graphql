@@ -1,0 +1,24 @@
+type EmailField {
+  label: String
+  placeholder: String
+}
+
+type PasswordField {
+  label: String
+  placeholder: String
+}
+
+type SubmitButton {
+  label: String
+}
+
+type ForgotPasswordLink {
+  label: String
+  link: String
+}
+
+type SignupLink {
+  label: String
+  linkLabel: String
+  link: String
+}

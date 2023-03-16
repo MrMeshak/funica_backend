@@ -2,6 +2,8 @@ import cookie from 'cookie';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
+import { createAuthToken } from '../../utils/jwtHelper.js';
+import { v4 as uuidv4 } from 'uuid';
 import {
   LoginResult,
   InvalidInputError,
@@ -10,7 +12,6 @@ import {
   InvalidCredentialsError,
   SignupResult
 } from '../graphqlTypes';
-import { createAuthToken } from '../../utils/jwtHelper.js';
 
 export const authResolver: Resolvers = {
   Query: {
@@ -89,6 +90,7 @@ export const authResolver: Resolvers = {
       });
 
       //Return User
+      Object.assign(user, { __typename: 'User' });
       return user;
     }
   },
@@ -189,6 +191,7 @@ export const authResolver: Resolvers = {
       //Create user
       const user = await context.prisma.user.create({
         data: {
+          id: uuidv4(),
           email: email,
           password: hashedPassword,
           firstname: firstname,
@@ -196,6 +199,7 @@ export const authResolver: Resolvers = {
         }
       });
 
+      Object.assign(user, { __typename: 'User' });
       return user;
     }
   }
