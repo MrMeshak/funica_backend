@@ -2,7 +2,7 @@ import { LoginPageUi, Resolvers } from '../graphqlTypes';
 
 export const loginPageResolver: Resolvers = {
   Query: {
-    loginPageUI: (): LoginPageUi => {
+    loginPageUi: (): LoginPageUi => {
       return {
         header: {
           title: 'Login to Your Account',
@@ -24,7 +24,7 @@ export const loginPageResolver: Resolvers = {
         },
 
         forgotPasswordLink: {
-          label: 'Forgot Password?',
+          label: 'Forgot the Password?',
           link: '/forgot-password'
         },
 

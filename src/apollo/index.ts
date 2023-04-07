@@ -8,6 +8,8 @@ import prisma from '../prisma/prismaClient.js';
 import { authResolver } from '../graphql/auth/authResolver.js';
 import { baseResolver } from '../graphql/base/baseResolver.js';
 import { loginPageResolver } from '../graphql/loginPage/loginPageResolver.js';
+import { signupPageResolver } from '../graphql/signupPage/signupPageResolver.js';
+import { productPageResolver } from '../graphql/productPage/productPageResolver.js';
 
 export interface IGraphqlContext {
   prisma: PrismaClient;
@@ -33,10 +35,32 @@ const baseTypeDefs = readFileSync('./dist/graphql/base/baseSchema.graphql', 'utf
 const baseUITypeDefs = readFileSync('./dist/graphql/base/baseUISchema.graphql', 'utf8');
 const authTypeDefs = readFileSync('./dist/graphql/auth/authSchema.graphql', 'utf8');
 const loginPageTypeDefs = readFileSync('./dist/graphql/loginPage/loginPageSchema.graphql', 'utf8');
+const signupPageTypeDefs = readFileSync(
+  './dist/graphql/signupPage/signupPageSchema.graphql',
+  'utf8'
+);
+const productPageTypeDefs = readFileSync(
+  './dist/graphql/productPage/productPageSchema.graphql',
+  'utf8'
+);
 
 const server = new ApolloServer<IGraphqlContext>({
-  typeDefs: [baseTypeDefs, baseUITypeDefs, authTypeDefs, loginPageTypeDefs],
-  resolvers: _.merge({}, baseResolver, authResolver, loginPageResolver)
+  typeDefs: [
+    baseTypeDefs,
+    baseUITypeDefs,
+    authTypeDefs,
+    loginPageTypeDefs,
+    signupPageTypeDefs,
+    productPageTypeDefs
+  ],
+  resolvers: _.merge(
+    {},
+    baseResolver,
+    authResolver,
+    loginPageResolver,
+    signupPageResolver,
+    productPageResolver
+  )
 });
 
 export default server;

@@ -7,41 +7,41 @@ type User {
 
   email: String!
 
-  firstname: String
+  firstname: String!
   lastname: String!
   profileImg: String!
 
   createdAt: DateTime!
   updatedAt: DateTime!
 
-  addresses: [Address]
-  orders: [Order]
-  favoriteProducts: [Product]
+  addresses: [Address!]!
+  orders: [Order!]!
+  favoriteProducts: [Product!]!
 }
 
 type Address {
   id: ID!
 
-  name: String
-  addressLn1: String
+  name: String!
+  addressLn1: String!
   addressLn2: String
-  city: String
-  state: String
-  country: String
-  postCode: String
+  city: String!
+  state: String!
+  country: String!
+  postCode: String!
 }
 
 type Order {
   id: ID!
 
-  orderStatus: OrderStatus
-  isPaid: String
-  paymentMethod: PaymentMethod
-  billingAddress: Address
+  orderStatus: OrderStatus!
+  isPaid: DateTime
+  paymentMethod: PaymentMethod!
+  billingAddress: Address!
 
-  isShipped: String
-  shippingType: ShippingType
-  shippingAddress: Address
+  isShipped: String!
+  shippingType: ShippingType!
+  shippingAddress: Address!
 
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -62,16 +62,16 @@ type Product {
   id: ID!
 
   name: String!
-  prductType: String!
-  categories: [String]
+  productType: String!
+  categories: [String!]!
   description: String!
   price: Int!
 
-  rating: Int
+  rating: Float
 
   isFavorited: Boolean
 
-  variations: [ProductVariation]
+  variations: [ProductVariation!]!
 
   reviews: [Review]
 }
@@ -79,19 +79,17 @@ type Product {
 type ProductVariation {
   id: ID!
 
-  color: String
-  colorHex: String
-  size: String
-  images: [String]
+  color: String!
+  colorHex: String!
+  size: String!
+  images: [String!]!
 }
 
 type Review {
   id: ID!
-
   rating: Int!
-  description: String
-
-  user: User
+  description: String!
+  user: User!
 }
 
 enum OrderStatus {
@@ -138,5 +136,9 @@ type InvalidFieldError implements BaseError {
 }
 
 type InvalidCredentialsError implements BaseError {
+  message: String!
+}
+
+type NotFoundError implements BaseError {
   message: String!
 }

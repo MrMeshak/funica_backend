@@ -1,0 +1,22 @@
+type Query {
+  signupPageUi: SignupPageUi!
+}
+
+type SignupPageUi {
+  header: SignupHeader!
+  form: SignupForm!
+  loginLink: LoginLink!
+}
+
+type SignupHeader {
+  title: String!
+  subtitle: String!
+}
+
+type SignupForm {
+  email: EmailField!
+  password: PasswordField!
+  firstname: FirstnameField!
+  lastname: LastnameField!
+  submit: SubmitButton!
+}

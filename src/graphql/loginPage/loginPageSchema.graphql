@@ -1,21 +1,21 @@
 type Query {
-  loginPageUI: LoginPageUI
+  loginPageUi: LoginPageUi!
 }
 
-type LoginPageUI {
-  header: LoginHeader
-  form: LoginForm
-  forgotPasswordLink: ForgotPasswordLink
-  signupLink: SignupLink
+type LoginPageUi {
+  header: LoginHeader!
+  form: LoginForm!
+  forgotPasswordLink: ForgotPasswordLink!
+  signupLink: SignupLink!
 }
 
 type LoginHeader {
-  title: String
+  title: String!
   subtitle: String
 }
 
 type LoginForm {
-  email: EmailField
-  password: PasswordField
-  submit: SubmitButton
+  email: EmailField!
+  password: PasswordField!
+  submit: SubmitButton!
 }

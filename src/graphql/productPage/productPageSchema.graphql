@@ -1,7 +1,84 @@
 type Query {
-  productPage: ProductPage
+  productPageUi(input: ProductPageUiInput!): ProductPageUiResult
 }
 
-type ProductPage {
-  product(id: ID): Product
+type ProductPageUi {
+  productPageData: ProductPageData!
+
+  productGallery(input: productGalleryInput): ProductGallery
+  productHeader: ProductHeader
+  productInfo: ProductInfo
+  productForm: ProductForm
+  productPrice: ProductPrice
+}
+
+input ProductPageUiInput {
+  productId: ID!
+}
+
+union ProductPageUiResult = ProductPageUi | NotFoundError
+
+type ProductPageData {
+  product: Product!
+}
+
+input productGalleryInput {
+  variationId: ID!
+}
+
+type ProductGallery {
+  images: [String]
+}
+
+type ProductHeader {
+  title: String!
+  subtitle: String!
+  productStats: ProductStats
+  isLiked: Boolean
+}
+
+type ProductStats {
+  rating: Float
+  reviewCount: Int
+}
+
+type ProductInfo {
+  productDescription: ProductDescription
+  productVariationDisplay: ProductVariationDisplay
+}
+
+type ProductDescription {
+  label: String!
+  description: String!
+}
+
+type ProductVariationDisplay {
+  label: String!
+  variationOptions: [VariationOption]
+}
+
+type VariationOption {
+  variationId: ID!
+  color: String!
+  colorHex: String!
+}
+
+type ProductForm {
+  productQuantityField: ProductQuantityField
+  productAddToCartBtn: SubmitButton
+}
+
+type ProductQuantityField {
+  label: String
+  min: Int
+  max: Int
+}
+
+type ProductPrice {
+  label: String!
+  price: Int!
+}
+
+type ProductAddToCartBtn {
+  label: String
 }

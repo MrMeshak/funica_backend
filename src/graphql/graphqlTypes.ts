@@ -18,14 +18,14 @@ export type Scalars = {
 
 export type Address = {
   __typename?: 'Address';
-  addressLn1?: Maybe<Scalars['String']>;
+  addressLn1: Scalars['String'];
   addressLn2?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
+  city: Scalars['String'];
+  country: Scalars['String'];
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  postCode?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  postCode: Scalars['String'];
+  state: Scalars['String'];
 };
 
 export type BaseError = {
@@ -52,6 +52,12 @@ export type FilterPrice = {
   __typename?: 'FilterPrice';
   max?: Maybe<Scalars['Int']>;
   min?: Maybe<Scalars['Int']>;
+};
+
+export type FirstnameField = {
+  __typename?: 'FirstnameField';
+  label?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
 };
 
 export type ForgotPasswordLink = {
@@ -90,6 +96,12 @@ export type InvalidInputError = BaseError & {
   message: Scalars['String'];
 };
 
+export type LastnameField = {
+  __typename?: 'LastnameField';
+  label?: Maybe<Scalars['String']>;
+  placeholder?: Maybe<Scalars['String']>;
+};
+
 export type Library = {
   __typename?: 'Library';
   filterCategory?: Maybe<Category>;
@@ -112,15 +124,15 @@ export type LibraryPageLibraryArgs = {
 
 export type LoginForm = {
   __typename?: 'LoginForm';
-  email?: Maybe<EmailField>;
-  password?: Maybe<PasswordField>;
-  submit?: Maybe<SubmitButton>;
+  email: EmailField;
+  password: PasswordField;
+  submit: SubmitButton;
 };
 
 export type LoginHeader = {
   __typename?: 'LoginHeader';
   subtitle?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 export type LoginInput = {
@@ -128,12 +140,19 @@ export type LoginInput = {
   password: Scalars['String'];
 };
 
+export type LoginLink = {
+  __typename?: 'LoginLink';
+  label?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  linkLabel?: Maybe<Scalars['String']>;
+};
+
 export type LoginPageUi = {
-  __typename?: 'LoginPageUI';
-  forgotPasswordLink?: Maybe<ForgotPasswordLink>;
-  form?: Maybe<LoginForm>;
-  header?: Maybe<LoginHeader>;
-  signupLink?: Maybe<SignupLink>;
+  __typename?: 'LoginPageUi';
+  forgotPasswordLink: ForgotPasswordLink;
+  form: LoginForm;
+  header: LoginHeader;
+  signupLink: SignupLink;
 };
 
 export type LoginResult = InvalidCredentialsError | InvalidInputError | User;
@@ -148,18 +167,23 @@ export type MutationSignupArgs = {
   input: SignupInput;
 };
 
+export type NotFoundError = BaseError & {
+  __typename?: 'NotFoundError';
+  message: Scalars['String'];
+};
+
 export type Order = {
   __typename?: 'Order';
-  billingAddress?: Maybe<Address>;
+  billingAddress: Address;
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
-  isPaid?: Maybe<Scalars['String']>;
-  isShipped?: Maybe<Scalars['String']>;
+  isPaid?: Maybe<Scalars['DateTime']>;
+  isShipped: Scalars['String'];
   items?: Maybe<Array<Maybe<OrderItem>>>;
-  orderStatus?: Maybe<OrderStatus>;
-  paymentMethod?: Maybe<PaymentMethod>;
-  shippingAddress?: Maybe<Address>;
-  shippingType?: Maybe<ShippingType>;
+  orderStatus: OrderStatus;
+  paymentMethod: PaymentMethod;
+  shippingAddress: Address;
+  shippingType: ShippingType;
   updatedAt: Scalars['DateTime'];
   user: User;
 };
@@ -202,35 +226,112 @@ export enum PaymentMethod {
 
 export type Product = {
   __typename?: 'Product';
-  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
+  categories: Array<Scalars['String']>;
   description: Scalars['String'];
   id: Scalars['ID'];
   isFavorited?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
-  prductType: Scalars['String'];
   price: Scalars['Int'];
-  rating?: Maybe<Scalars['Int']>;
+  productType: Scalars['String'];
+  rating?: Maybe<Scalars['Float']>;
   reviews?: Maybe<Array<Maybe<Review>>>;
-  variations?: Maybe<Array<Maybe<ProductVariation>>>;
+  variations: Array<ProductVariation>;
 };
 
-export type ProductPage = {
-  __typename?: 'ProductPage';
-  product?: Maybe<Product>;
+export type ProductAddToCartBtn = {
+  __typename?: 'ProductAddToCartBtn';
+  label?: Maybe<Scalars['String']>;
+};
+
+export type ProductDescription = {
+  __typename?: 'ProductDescription';
+  description: Scalars['String'];
+  label: Scalars['String'];
+};
+
+export type ProductForm = {
+  __typename?: 'ProductForm';
+  productAddToCartBtn?: Maybe<SubmitButton>;
+  productQuantityField?: Maybe<ProductQuantityField>;
+};
+
+export type ProductGallery = {
+  __typename?: 'ProductGallery';
+  images?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type ProductHeader = {
+  __typename?: 'ProductHeader';
+  isLiked?: Maybe<Scalars['Boolean']>;
+  productStats?: Maybe<ProductStats>;
+  subtitle: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type ProductInfo = {
+  __typename?: 'ProductInfo';
+  productDescription?: Maybe<ProductDescription>;
+  productVariationDisplay?: Maybe<ProductVariationDisplay>;
+};
+
+export type ProductPageData = {
+  __typename?: 'ProductPageData';
+  product: Product;
+};
+
+export type ProductPageUi = {
+  __typename?: 'ProductPageUi';
+  productForm?: Maybe<ProductForm>;
+  productGallery?: Maybe<ProductGallery>;
+  productHeader?: Maybe<ProductHeader>;
+  productInfo?: Maybe<ProductInfo>;
+  productPageData: ProductPageData;
+  productPrice?: Maybe<ProductPrice>;
 };
 
 
-export type ProductPageProductArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+export type ProductPageUiProductGalleryArgs = {
+  input?: InputMaybe<ProductGalleryInput>;
+};
+
+export type ProductPageUiInput = {
+  productId: Scalars['ID'];
+};
+
+export type ProductPageUiResult = NotFoundError | ProductPageUi;
+
+export type ProductPrice = {
+  __typename?: 'ProductPrice';
+  label: Scalars['String'];
+  price: Scalars['Int'];
+};
+
+export type ProductQuantityField = {
+  __typename?: 'ProductQuantityField';
+  label?: Maybe<Scalars['String']>;
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+};
+
+export type ProductStats = {
+  __typename?: 'ProductStats';
+  rating?: Maybe<Scalars['Float']>;
+  reviewCount?: Maybe<Scalars['Int']>;
 };
 
 export type ProductVariation = {
   __typename?: 'ProductVariation';
-  color?: Maybe<Scalars['String']>;
-  colorHex?: Maybe<Scalars['String']>;
+  color: Scalars['String'];
+  colorHex: Scalars['String'];
   id: Scalars['ID'];
-  images?: Maybe<Array<Maybe<Scalars['String']>>>;
-  size?: Maybe<Scalars['String']>;
+  images: Array<Scalars['String']>;
+  size: Scalars['String'];
+};
+
+export type ProductVariationDisplay = {
+  __typename?: 'ProductVariationDisplay';
+  label: Scalars['String'];
+  variationOptions?: Maybe<Array<Maybe<VariationOption>>>;
 };
 
 export type Query = {
@@ -239,8 +340,9 @@ export type Query = {
   homePage?: Maybe<HomePage>;
   libraryPage?: Maybe<LibraryPage>;
   login?: Maybe<LoginResult>;
-  loginPageUI?: Maybe<LoginPageUi>;
-  productPage?: Maybe<ProductPage>;
+  loginPageUi: LoginPageUi;
+  productPageUi?: Maybe<ProductPageUiResult>;
+  signupPageUi: SignupPageUi;
 };
 
 
@@ -248,18 +350,38 @@ export type QueryLoginArgs = {
   input: LoginInput;
 };
 
+
+export type QueryProductPageUiArgs = {
+  input: ProductPageUiInput;
+};
+
 export type Review = {
   __typename?: 'Review';
-  description?: Maybe<Scalars['String']>;
+  description: Scalars['String'];
   id: Scalars['ID'];
   rating: Scalars['Int'];
-  user?: Maybe<User>;
+  user: User;
 };
 
 export enum ShippingType {
   Express = 'EXPRESS',
   Standard = 'STANDARD'
 }
+
+export type SignupForm = {
+  __typename?: 'SignupForm';
+  email: EmailField;
+  firstname: FirstnameField;
+  lastname: LastnameField;
+  password: PasswordField;
+  submit: SubmitButton;
+};
+
+export type SignupHeader = {
+  __typename?: 'SignupHeader';
+  subtitle: Scalars['String'];
+  title: Scalars['String'];
+};
 
 export type SignupInput = {
   email: Scalars['String'];
@@ -273,6 +395,13 @@ export type SignupLink = {
   label?: Maybe<Scalars['String']>;
   link?: Maybe<Scalars['String']>;
   linkLabel?: Maybe<Scalars['String']>;
+};
+
+export type SignupPageUi = {
+  __typename?: 'SignupPageUi';
+  form: SignupForm;
+  header: SignupHeader;
+  loginLink: LoginLink;
 };
 
 export type SignupResult = InvalidInputError | User;
@@ -293,16 +422,27 @@ export type SubmitButton = {
 
 export type User = {
   __typename?: 'User';
-  addresses?: Maybe<Array<Maybe<Address>>>;
+  addresses: Array<Address>;
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
-  favoriteProducts?: Maybe<Array<Maybe<Product>>>;
-  firstname?: Maybe<Scalars['String']>;
+  favoriteProducts: Array<Product>;
+  firstname: Scalars['String'];
   id: Scalars['ID'];
   lastname: Scalars['String'];
-  orders?: Maybe<Array<Maybe<Order>>>;
+  orders: Array<Order>;
   profileImg: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type VariationOption = {
+  __typename?: 'VariationOption';
+  color: Scalars['String'];
+  colorHex: Scalars['String'];
+  variationId: Scalars['ID'];
+};
+
+export type ProductGalleryInput = {
+  variationId: Scalars['ID'];
 };
 
 
@@ -371,12 +511,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Address: ResolverTypeWrapper<Address>;
-  BaseError: ResolversTypes['InvalidCredentialsError'] | ResolversTypes['InvalidFieldError'] | ResolversTypes['InvalidInputError'];
+  BaseError: ResolversTypes['InvalidCredentialsError'] | ResolversTypes['InvalidFieldError'] | ResolversTypes['InvalidInputError'] | ResolversTypes['NotFoundError'];
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Category: Category;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   EmailField: ResolverTypeWrapper<EmailField>;
   FilterPrice: ResolverTypeWrapper<FilterPrice>;
+  FirstnameField: ResolverTypeWrapper<FirstnameField>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   ForgotPasswordLink: ResolverTypeWrapper<ForgotPasswordLink>;
   HomePage: ResolverTypeWrapper<HomePage>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
@@ -384,42 +526,65 @@ export type ResolversTypes = {
   InvalidCredentialsError: ResolverTypeWrapper<InvalidCredentialsError>;
   InvalidFieldError: ResolverTypeWrapper<InvalidFieldError>;
   InvalidInputError: ResolverTypeWrapper<InvalidInputError>;
+  LastnameField: ResolverTypeWrapper<LastnameField>;
   Library: ResolverTypeWrapper<Library>;
   LibraryPage: ResolverTypeWrapper<LibraryPage>;
   LoginForm: ResolverTypeWrapper<LoginForm>;
   LoginHeader: ResolverTypeWrapper<LoginHeader>;
   LoginInput: LoginInput;
-  LoginPageUI: ResolverTypeWrapper<LoginPageUi>;
+  LoginLink: ResolverTypeWrapper<LoginLink>;
+  LoginPageUi: ResolverTypeWrapper<LoginPageUi>;
   LoginResult: ResolversTypes['InvalidCredentialsError'] | ResolversTypes['InvalidInputError'] | ResolversTypes['User'];
   Mutation: ResolverTypeWrapper<{}>;
+  NotFoundError: ResolverTypeWrapper<NotFoundError>;
   Order: ResolverTypeWrapper<Order>;
   OrderItem: ResolverTypeWrapper<OrderItem>;
   OrderStatus: OrderStatus;
   PasswordField: ResolverTypeWrapper<PasswordField>;
   PaymentMethod: PaymentMethod;
   Product: ResolverTypeWrapper<Product>;
-  ProductPage: ResolverTypeWrapper<ProductPage>;
+  ProductAddToCartBtn: ResolverTypeWrapper<ProductAddToCartBtn>;
+  ProductDescription: ResolverTypeWrapper<ProductDescription>;
+  ProductForm: ResolverTypeWrapper<ProductForm>;
+  ProductGallery: ResolverTypeWrapper<ProductGallery>;
+  ProductHeader: ResolverTypeWrapper<ProductHeader>;
+  ProductInfo: ResolverTypeWrapper<ProductInfo>;
+  ProductPageData: ResolverTypeWrapper<ProductPageData>;
+  ProductPageUi: ResolverTypeWrapper<ProductPageUi>;
+  ProductPageUiInput: ProductPageUiInput;
+  ProductPageUiResult: ResolversTypes['NotFoundError'] | ResolversTypes['ProductPageUi'];
+  ProductPrice: ResolverTypeWrapper<ProductPrice>;
+  ProductQuantityField: ResolverTypeWrapper<ProductQuantityField>;
+  ProductStats: ResolverTypeWrapper<ProductStats>;
   ProductVariation: ResolverTypeWrapper<ProductVariation>;
+  ProductVariationDisplay: ResolverTypeWrapper<ProductVariationDisplay>;
   Query: ResolverTypeWrapper<{}>;
   Review: ResolverTypeWrapper<Review>;
   ShippingType: ShippingType;
+  SignupForm: ResolverTypeWrapper<SignupForm>;
+  SignupHeader: ResolverTypeWrapper<SignupHeader>;
   SignupInput: SignupInput;
   SignupLink: ResolverTypeWrapper<SignupLink>;
+  SignupPageUi: ResolverTypeWrapper<SignupPageUi>;
   SignupResult: ResolversTypes['InvalidInputError'] | ResolversTypes['User'];
   Sort: Sort;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubmitButton: ResolverTypeWrapper<SubmitButton>;
   User: ResolverTypeWrapper<User>;
+  VariationOption: ResolverTypeWrapper<VariationOption>;
+  productGalleryInput: ProductGalleryInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Address: Address;
-  BaseError: ResolversParentTypes['InvalidCredentialsError'] | ResolversParentTypes['InvalidFieldError'] | ResolversParentTypes['InvalidInputError'];
+  BaseError: ResolversParentTypes['InvalidCredentialsError'] | ResolversParentTypes['InvalidFieldError'] | ResolversParentTypes['InvalidInputError'] | ResolversParentTypes['NotFoundError'];
   Boolean: Scalars['Boolean'];
   DateTime: Scalars['DateTime'];
   EmailField: EmailField;
   FilterPrice: FilterPrice;
+  FirstnameField: FirstnameField;
+  Float: Scalars['Float'];
   ForgotPasswordLink: ForgotPasswordLink;
   HomePage: HomePage;
   ID: Scalars['ID'];
@@ -427,44 +592,65 @@ export type ResolversParentTypes = {
   InvalidCredentialsError: InvalidCredentialsError;
   InvalidFieldError: InvalidFieldError;
   InvalidInputError: InvalidInputError;
+  LastnameField: LastnameField;
   Library: Library;
   LibraryPage: LibraryPage;
   LoginForm: LoginForm;
   LoginHeader: LoginHeader;
   LoginInput: LoginInput;
-  LoginPageUI: LoginPageUi;
+  LoginLink: LoginLink;
+  LoginPageUi: LoginPageUi;
   LoginResult: ResolversParentTypes['InvalidCredentialsError'] | ResolversParentTypes['InvalidInputError'] | ResolversParentTypes['User'];
   Mutation: {};
+  NotFoundError: NotFoundError;
   Order: Order;
   OrderItem: OrderItem;
   PasswordField: PasswordField;
   Product: Product;
-  ProductPage: ProductPage;
+  ProductAddToCartBtn: ProductAddToCartBtn;
+  ProductDescription: ProductDescription;
+  ProductForm: ProductForm;
+  ProductGallery: ProductGallery;
+  ProductHeader: ProductHeader;
+  ProductInfo: ProductInfo;
+  ProductPageData: ProductPageData;
+  ProductPageUi: ProductPageUi;
+  ProductPageUiInput: ProductPageUiInput;
+  ProductPageUiResult: ResolversParentTypes['NotFoundError'] | ResolversParentTypes['ProductPageUi'];
+  ProductPrice: ProductPrice;
+  ProductQuantityField: ProductQuantityField;
+  ProductStats: ProductStats;
   ProductVariation: ProductVariation;
+  ProductVariationDisplay: ProductVariationDisplay;
   Query: {};
   Review: Review;
+  SignupForm: SignupForm;
+  SignupHeader: SignupHeader;
   SignupInput: SignupInput;
   SignupLink: SignupLink;
+  SignupPageUi: SignupPageUi;
   SignupResult: ResolversParentTypes['InvalidInputError'] | ResolversParentTypes['User'];
   String: Scalars['String'];
   SubmitButton: SubmitButton;
   User: User;
+  VariationOption: VariationOption;
+  productGalleryInput: ProductGalleryInput;
 };
 
 export type AddressResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
-  addressLn1?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  addressLn1?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   addressLn2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  postCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  state?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type BaseErrorResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['BaseError'] = ResolversParentTypes['BaseError']> = {
-  __resolveType: TypeResolveFn<'InvalidCredentialsError' | 'InvalidFieldError' | 'InvalidInputError', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'InvalidCredentialsError' | 'InvalidFieldError' | 'InvalidInputError' | 'NotFoundError', ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -481,6 +667,12 @@ export type EmailFieldResolvers<ContextType = IGraphqlContext, ParentType extend
 export type FilterPriceResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['FilterPrice'] = ResolversParentTypes['FilterPrice']> = {
   max?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   min?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FirstnameFieldResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['FirstnameField'] = ResolversParentTypes['FirstnameField']> = {
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  placeholder?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -513,6 +705,12 @@ export type InvalidInputErrorResolvers<ContextType = IGraphqlContext, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type LastnameFieldResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['LastnameField'] = ResolversParentTypes['LastnameField']> = {
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  placeholder?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type LibraryResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Library'] = ResolversParentTypes['Library']> = {
   filterCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   filterPrice?: Resolver<Maybe<ResolversTypes['FilterPrice']>, ParentType, ContextType>;
@@ -527,23 +725,30 @@ export type LibraryPageResolvers<ContextType = IGraphqlContext, ParentType exten
 };
 
 export type LoginFormResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['LoginForm'] = ResolversParentTypes['LoginForm']> = {
-  email?: Resolver<Maybe<ResolversTypes['EmailField']>, ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes['PasswordField']>, ParentType, ContextType>;
-  submit?: Resolver<Maybe<ResolversTypes['SubmitButton']>, ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['EmailField'], ParentType, ContextType>;
+  password?: Resolver<ResolversTypes['PasswordField'], ParentType, ContextType>;
+  submit?: Resolver<ResolversTypes['SubmitButton'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type LoginHeaderResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['LoginHeader'] = ResolversParentTypes['LoginHeader']> = {
   subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type LoginPageUiResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['LoginPageUI'] = ResolversParentTypes['LoginPageUI']> = {
-  forgotPasswordLink?: Resolver<Maybe<ResolversTypes['ForgotPasswordLink']>, ParentType, ContextType>;
-  form?: Resolver<Maybe<ResolversTypes['LoginForm']>, ParentType, ContextType>;
-  header?: Resolver<Maybe<ResolversTypes['LoginHeader']>, ParentType, ContextType>;
-  signupLink?: Resolver<Maybe<ResolversTypes['SignupLink']>, ParentType, ContextType>;
+export type LoginLinkResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['LoginLink'] = ResolversParentTypes['LoginLink']> = {
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  link?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LoginPageUiResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['LoginPageUi'] = ResolversParentTypes['LoginPageUi']> = {
+  forgotPasswordLink?: Resolver<ResolversTypes['ForgotPasswordLink'], ParentType, ContextType>;
+  form?: Resolver<ResolversTypes['LoginForm'], ParentType, ContextType>;
+  header?: Resolver<ResolversTypes['LoginHeader'], ParentType, ContextType>;
+  signupLink?: Resolver<ResolversTypes['SignupLink'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -555,17 +760,22 @@ export type MutationResolvers<ContextType = IGraphqlContext, ParentType extends 
   signup?: Resolver<Maybe<ResolversTypes['SignupResult']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'input'>>;
 };
 
+export type NotFoundErrorResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['NotFoundError'] = ResolversParentTypes['NotFoundError']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type OrderResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Order'] = ResolversParentTypes['Order']> = {
-  billingAddress?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
+  billingAddress?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  isPaid?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  isShipped?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isPaid?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  isShipped?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<Maybe<ResolversTypes['OrderItem']>>>, ParentType, ContextType>;
-  orderStatus?: Resolver<Maybe<ResolversTypes['OrderStatus']>, ParentType, ContextType>;
-  paymentMethod?: Resolver<Maybe<ResolversTypes['PaymentMethod']>, ParentType, ContextType>;
-  shippingAddress?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
-  shippingType?: Resolver<Maybe<ResolversTypes['ShippingType']>, ParentType, ContextType>;
+  orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>;
+  paymentMethod?: Resolver<ResolversTypes['PaymentMethod'], ParentType, ContextType>;
+  shippingAddress?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
+  shippingType?: Resolver<ResolversTypes['ShippingType'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -586,30 +796,105 @@ export type PasswordFieldResolvers<ContextType = IGraphqlContext, ParentType ext
 };
 
 export type ProductResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
-  categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isFavorited?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  prductType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  rating?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  productType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   reviews?: Resolver<Maybe<Array<Maybe<ResolversTypes['Review']>>>, ParentType, ContextType>;
-  variations?: Resolver<Maybe<Array<Maybe<ResolversTypes['ProductVariation']>>>, ParentType, ContextType>;
+  variations?: Resolver<Array<ResolversTypes['ProductVariation']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProductPageResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPage'] = ResolversParentTypes['ProductPage']> = {
-  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType, Partial<ProductPageProductArgs>>;
+export type ProductAddToCartBtnResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductAddToCartBtn'] = ResolversParentTypes['ProductAddToCartBtn']> = {
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductDescriptionResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductDescription'] = ResolversParentTypes['ProductDescription']> = {
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductFormResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductForm'] = ResolversParentTypes['ProductForm']> = {
+  productAddToCartBtn?: Resolver<Maybe<ResolversTypes['SubmitButton']>, ParentType, ContextType>;
+  productQuantityField?: Resolver<Maybe<ResolversTypes['ProductQuantityField']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductGalleryResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductGallery'] = ResolversParentTypes['ProductGallery']> = {
+  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductHeaderResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductHeader'] = ResolversParentTypes['ProductHeader']> = {
+  isLiked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  productStats?: Resolver<Maybe<ResolversTypes['ProductStats']>, ParentType, ContextType>;
+  subtitle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductInfoResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductInfo'] = ResolversParentTypes['ProductInfo']> = {
+  productDescription?: Resolver<Maybe<ResolversTypes['ProductDescription']>, ParentType, ContextType>;
+  productVariationDisplay?: Resolver<Maybe<ResolversTypes['ProductVariationDisplay']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductPageDataResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPageData'] = ResolversParentTypes['ProductPageData']> = {
+  product?: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductPageUiResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPageUi'] = ResolversParentTypes['ProductPageUi']> = {
+  productForm?: Resolver<Maybe<ResolversTypes['ProductForm']>, ParentType, ContextType>;
+  productGallery?: Resolver<Maybe<ResolversTypes['ProductGallery']>, ParentType, ContextType, Partial<ProductPageUiProductGalleryArgs>>;
+  productHeader?: Resolver<Maybe<ResolversTypes['ProductHeader']>, ParentType, ContextType>;
+  productInfo?: Resolver<Maybe<ResolversTypes['ProductInfo']>, ParentType, ContextType>;
+  productPageData?: Resolver<ResolversTypes['ProductPageData'], ParentType, ContextType>;
+  productPrice?: Resolver<Maybe<ResolversTypes['ProductPrice']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductPageUiResultResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPageUiResult'] = ResolversParentTypes['ProductPageUiResult']> = {
+  __resolveType: TypeResolveFn<'NotFoundError' | 'ProductPageUi', ParentType, ContextType>;
+};
+
+export type ProductPriceResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPrice'] = ResolversParentTypes['ProductPrice']> = {
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductQuantityFieldResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductQuantityField'] = ResolversParentTypes['ProductQuantityField']> = {
+  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  max?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  min?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductStatsResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductStats'] = ResolversParentTypes['ProductStats']> = {
+  rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  reviewCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProductVariationResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductVariation'] = ResolversParentTypes['ProductVariation']> = {
-  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  colorHex?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  colorHex?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  size?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductVariationDisplayResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductVariationDisplay'] = ResolversParentTypes['ProductVariationDisplay']> = {
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variationOptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['VariationOption']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -618,15 +903,31 @@ export type QueryResolvers<ContextType = IGraphqlContext, ParentType extends Res
   homePage?: Resolver<Maybe<ResolversTypes['HomePage']>, ParentType, ContextType>;
   libraryPage?: Resolver<Maybe<ResolversTypes['LibraryPage']>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginResult']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'input'>>;
-  loginPageUI?: Resolver<Maybe<ResolversTypes['LoginPageUI']>, ParentType, ContextType>;
-  productPage?: Resolver<Maybe<ResolversTypes['ProductPage']>, ParentType, ContextType>;
+  loginPageUi?: Resolver<ResolversTypes['LoginPageUi'], ParentType, ContextType>;
+  productPageUi?: Resolver<Maybe<ResolversTypes['ProductPageUiResult']>, ParentType, ContextType, RequireFields<QueryProductPageUiArgs, 'input'>>;
+  signupPageUi?: Resolver<ResolversTypes['SignupPageUi'], ParentType, ContextType>;
 };
 
 export type ReviewResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Review'] = ResolversParentTypes['Review']> = {
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   rating?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SignupFormResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['SignupForm'] = ResolversParentTypes['SignupForm']> = {
+  email?: Resolver<ResolversTypes['EmailField'], ParentType, ContextType>;
+  firstname?: Resolver<ResolversTypes['FirstnameField'], ParentType, ContextType>;
+  lastname?: Resolver<ResolversTypes['LastnameField'], ParentType, ContextType>;
+  password?: Resolver<ResolversTypes['PasswordField'], ParentType, ContextType>;
+  submit?: Resolver<ResolversTypes['SubmitButton'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SignupHeaderResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['SignupHeader'] = ResolversParentTypes['SignupHeader']> = {
+  subtitle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -634,6 +935,13 @@ export type SignupLinkResolvers<ContextType = IGraphqlContext, ParentType extend
   label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   link?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   linkLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SignupPageUiResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['SignupPageUi'] = ResolversParentTypes['SignupPageUi']> = {
+  form?: Resolver<ResolversTypes['SignupForm'], ParentType, ContextType>;
+  header?: Resolver<ResolversTypes['SignupHeader'], ParentType, ContextType>;
+  loginLink?: Resolver<ResolversTypes['LoginLink'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -647,16 +955,23 @@ export type SubmitButtonResolvers<ContextType = IGraphqlContext, ParentType exte
 };
 
 export type UserResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  addresses?: Resolver<Maybe<Array<Maybe<ResolversTypes['Address']>>>, ParentType, ContextType>;
+  addresses?: Resolver<Array<ResolversTypes['Address']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  favoriteProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType>;
-  firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  favoriteProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>;
+  firstname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  orders?: Resolver<Maybe<Array<Maybe<ResolversTypes['Order']>>>, ParentType, ContextType>;
+  orders?: Resolver<Array<ResolversTypes['Order']>, ParentType, ContextType>;
   profileImg?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VariationOptionResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['VariationOption'] = ResolversParentTypes['VariationOption']> = {
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  colorHex?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variationId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -666,29 +981,49 @@ export type Resolvers<ContextType = IGraphqlContext> = {
   DateTime?: GraphQLScalarType;
   EmailField?: EmailFieldResolvers<ContextType>;
   FilterPrice?: FilterPriceResolvers<ContextType>;
+  FirstnameField?: FirstnameFieldResolvers<ContextType>;
   ForgotPasswordLink?: ForgotPasswordLinkResolvers<ContextType>;
   HomePage?: HomePageResolvers<ContextType>;
   InvalidCredentialsError?: InvalidCredentialsErrorResolvers<ContextType>;
   InvalidFieldError?: InvalidFieldErrorResolvers<ContextType>;
   InvalidInputError?: InvalidInputErrorResolvers<ContextType>;
+  LastnameField?: LastnameFieldResolvers<ContextType>;
   Library?: LibraryResolvers<ContextType>;
   LibraryPage?: LibraryPageResolvers<ContextType>;
   LoginForm?: LoginFormResolvers<ContextType>;
   LoginHeader?: LoginHeaderResolvers<ContextType>;
-  LoginPageUI?: LoginPageUiResolvers<ContextType>;
+  LoginLink?: LoginLinkResolvers<ContextType>;
+  LoginPageUi?: LoginPageUiResolvers<ContextType>;
   LoginResult?: LoginResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NotFoundError?: NotFoundErrorResolvers<ContextType>;
   Order?: OrderResolvers<ContextType>;
   OrderItem?: OrderItemResolvers<ContextType>;
   PasswordField?: PasswordFieldResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
-  ProductPage?: ProductPageResolvers<ContextType>;
+  ProductAddToCartBtn?: ProductAddToCartBtnResolvers<ContextType>;
+  ProductDescription?: ProductDescriptionResolvers<ContextType>;
+  ProductForm?: ProductFormResolvers<ContextType>;
+  ProductGallery?: ProductGalleryResolvers<ContextType>;
+  ProductHeader?: ProductHeaderResolvers<ContextType>;
+  ProductInfo?: ProductInfoResolvers<ContextType>;
+  ProductPageData?: ProductPageDataResolvers<ContextType>;
+  ProductPageUi?: ProductPageUiResolvers<ContextType>;
+  ProductPageUiResult?: ProductPageUiResultResolvers<ContextType>;
+  ProductPrice?: ProductPriceResolvers<ContextType>;
+  ProductQuantityField?: ProductQuantityFieldResolvers<ContextType>;
+  ProductStats?: ProductStatsResolvers<ContextType>;
   ProductVariation?: ProductVariationResolvers<ContextType>;
+  ProductVariationDisplay?: ProductVariationDisplayResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Review?: ReviewResolvers<ContextType>;
+  SignupForm?: SignupFormResolvers<ContextType>;
+  SignupHeader?: SignupHeaderResolvers<ContextType>;
   SignupLink?: SignupLinkResolvers<ContextType>;
+  SignupPageUi?: SignupPageUiResolvers<ContextType>;
   SignupResult?: SignupResultResolvers<ContextType>;
   SubmitButton?: SubmitButtonResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  VariationOption?: VariationOptionResolvers<ContextType>;
 };
 

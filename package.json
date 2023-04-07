@@ -16,7 +16,7 @@
     "db:seed": "node dist/prisma/seed.js",
     "db:seed:docker": "docker compose exec backend node dist/prisma/seed/seed.js",
     "copy:graphql": "copyfiles -u 2 src/graphql/**/*.graphql dist/graphql",
-    "graphql:codegen": "graphql-codegen"
+    "build:types": "graphql-codegen"
   },
   "author": "",
   "license": "ISC",
