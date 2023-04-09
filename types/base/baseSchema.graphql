@@ -83,6 +83,7 @@ type ProductVariation {
   colorHex: String!
   size: String!
   images: [Images!]!
+  product: Product!
 }
 
 type Images {

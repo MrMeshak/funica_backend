@@ -1,14 +1,115 @@
+import { Resolvers } from '../graphqlTypes';
 import {
-  Resolvers,
   ProductPageUiResult,
   ProductGallery,
   ProductHeader,
-  ProductPrice,
-  ProductInfo,
-  VariationOption,
-  ProductForm
+  ProductForm,
+  ProductInfo
 } from '../graphqlTypes';
 
+export const productPageResolver: Resolvers = {
+  Query: {
+    productPageUi: async (_, { input }, context): Promise<ProductPageUiResult> => {
+      const prisma = context.prisma;
+      const productVariation = await prisma.productVariation.findUnique({
+        where: {
+          id: input.productVariationId
+        },
+        include: {
+          images: true
+        }
+      });
+
+      if (!productVariation) {
+        return {
+          __typename: 'NotFoundError',
+          message: 'Product not found'
+        };
+      }
+
+      const productSummary = await prisma.product.findUnique({
+        where: {
+          id: productVariation.productId
+        },
+        select: {
+          id: true,
+          name: true,
+          productType: true,
+          categories: true,
+          searchTags: true,
+          description: true,
+          rating: true,
+          variations: {
+            select: {
+              id: true,
+              variationName: true,
+              color: true,
+              colorHex: true,
+              size: true
+            }
+          }
+        }
+      });
+
+      if (!productSummary) {
+        return {
+          __typename: 'NotFoundError',
+          message: 'Product not found'
+        };
+      }
+
+      return {
+        __typename: 'ProductPageUi',
+        productData: {
+          productVariation: productVariation,
+          product: productSummary
+        }
+      };
+    }
+  },
+
+  ProductPageUi: {
+    productGallery: (parent, _, context): ProductGallery => {
+      const images = parent.productData.productVariation.images;
+      return {
+        images: images
+      };
+    },
+    productInfo: (parent, _, context): ProductInfo => {
+      const description = parent.productData.product.description;
+      const variations = parent.productData.product.variations;
+      return {
+        description: description,
+        variations: variations
+      };
+    },
+    productHeader: (parent, _, context): ProductHeader => {
+      const { variationName, size, price } = parent.productData.productVariation;
+      const { name, rating } = parent.productData.product;
+      return {
+        title: name,
+        variationName: variationName,
+        size: size,
+        price: price,
+        rating: rating || 0
+      };
+    },
+    productForm: (parent, _, context): ProductForm => {
+      return {
+        quantityField: {
+          label: 'Quantity',
+          min: 1,
+          max: 10
+        },
+        submit: {
+          label: 'Add to Cart'
+        }
+      };
+    }
+  }
+};
+
+/*
 export const productPageResolver: Resolvers = {
   Query: {
     productPageUi: async (_, { input }, context): Promise<ProductPageUiResult> => {
@@ -38,31 +139,17 @@ export const productPageResolver: Resolvers = {
   },
 
   ProductPageUi: {
-    productGallery: (parent, { input }, context): ProductGallery => {
-      let variationId: string;
+    productGallery: (parent, _, context): ProductGallery => {
       const variations = parent.productPageData.product.variations;
-
-      if (variations.length === 0) {
+      const gallery = variations.map((variation) => {
         return {
-          images: []
+          variationId: variation.id,
+          images: variation.images
         };
-      }
-
-      if (input) {
-        variationId = input.variationId;
-      } else {
-        variationId = parent.productPageData.product.variations[0].id;
-      }
-
-      const match = variations.find((variation) => variation.id === variationId);
-      if (!match) {
-        return {
-          images: []
-        };
-      }
+      });
 
       return {
-        images: match.images
+        gallery: gallery
       };
     },
 
@@ -74,30 +161,29 @@ export const productPageResolver: Resolvers = {
     },
 
     productInfo: (parent, _, context): ProductInfo => {
-      const variationOptions: VariationOption[] = parent.productPageData.product.variations.map(
-        (variation) => {
-          return {
-            variationId: variation.id,
-            color: variation.color,
-            colorHex: variation.colorHex
-          };
-        }
-      );
-
       return {
         productDescription: {
           label: 'Description',
           description: parent.productPageData.product.description
-        },
-        productVariationDisplay: {
-          label: 'Variants',
-          variationOptions: variationOptions
         }
       };
     },
 
     productForm: (parent, _, context): ProductForm => {
+      const variations = parent.productPageData.product.variations;
+      const varaiationOptions = variations.map((variation) => {
+        return {
+          variationId: variation.id,
+          color: variation.color,
+          colorHex: variation.colorHex
+        };
+      });
+
       return {
+        productVariationField: {
+          label: 'Color',
+          variations: varaiationOptions
+        },
         productQuantityField: {
           label: 'Quantity',
           min: 1,
@@ -117,3 +203,4 @@ export const productPageResolver: Resolvers = {
     }
   }
 };
+*/

@@ -1,0 +1,12 @@
+type Query {
+  homePage: HomePage
+}
+
+type HomePage {
+  user: User
+  library(
+    filterCategory: Category
+    filterPrice: FilterPrice
+    sort: Sort
+  ): Library
+}

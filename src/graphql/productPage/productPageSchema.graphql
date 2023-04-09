@@ -1,84 +1,74 @@
 type Query {
-  productPageUi(input: ProductPageUiInput!): ProductPageUiResult
-}
-
-type ProductPageUi {
-  productPageData: ProductPageData!
-
-  productGallery(input: productGalleryInput): ProductGallery
-  productHeader: ProductHeader
-  productInfo: ProductInfo
-  productForm: ProductForm
-  productPrice: ProductPrice
+  productPageUi(input: ProductPageUiInput!): ProductPageUiResult!
 }
 
 input ProductPageUiInput {
-  productId: ID!
+  productVariationId: ID!
 }
 
 union ProductPageUiResult = ProductPageUi | NotFoundError
 
-type ProductPageData {
-  product: Product!
+type ProductPageUi {
+  productData: ProductData!
+
+  productGallery: ProductGallery
+  productHeader: ProductHeader
+  productInfo: ProductInfo
+  productForm: ProductForm
 }
 
-input productGalleryInput {
-  variationId: ID!
+type ProductData {
+  productVariation: ProductVariation!
+  product: productSummary!
+}
+
+type productSummary {
+  id: String!
+  name: String!
+  productType: String!
+  categories: [String!]!
+  searchTags: [String!]!
+  description: String!
+
+  rating: Float
+
+  variations: [ProductVariationSummary!]!
+}
+
+type ProductVariationSummary {
+  id: ID!
+  variationName: String!
+  color: String!
+  colorHex: String!
+  size: String!
 }
 
 type ProductGallery {
-  images: [String]
+  images: [Images!]!
 }
 
 type ProductHeader {
   title: String!
-  subtitle: String!
-  productStats: ProductStats
+  variationName: String!
+  size: String!
+  price: Int!
+  rating: Float!
+  reviewCount: Int
   isLiked: Boolean
 }
 
-type ProductStats {
-  rating: Float
-  reviewCount: Int
-}
-
 type ProductInfo {
-  productDescription: ProductDescription
-  productVariationDisplay: ProductVariationDisplay
-}
-
-type ProductDescription {
-  label: String!
   description: String!
-}
-
-type ProductVariationDisplay {
-  label: String!
-  variationOptions: [VariationOption]
-}
-
-type VariationOption {
-  variationId: ID!
-  color: String!
-  colorHex: String!
+  variations: [ProductVariationSummary!]!
 }
 
 type ProductForm {
-  productQuantityField: ProductQuantityField
-  productAddToCartBtn: SubmitButton
+  quantityField: QuantityField!
+  submit: SubmitButton!
 }
 
-type ProductQuantityField {
-  label: String
-  min: Int
-  max: Int
-}
-
-type ProductPrice {
+type QuantityField {
   label: String!
-  price: Int!
-}
-
-type ProductAddToCartBtn {
-  label: String
+  min: Int!
+  max: Int!
 }

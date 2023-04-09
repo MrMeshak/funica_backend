@@ -79,6 +79,15 @@ export type HomePageLibraryArgs = {
   sort?: InputMaybe<Sort>;
 };
 
+export type Images = {
+  __typename?: 'Images';
+  alt: Scalars['String'];
+  height: Scalars['Int'];
+  id: Scalars['ID'];
+  url: Scalars['String'];
+  width: Scalars['Int'];
+};
+
 export type InvalidCredentialsError = BaseError & {
   __typename?: 'InvalidCredentialsError';
   message: Scalars['String'];
@@ -231,107 +240,87 @@ export type Product = {
   id: Scalars['ID'];
   isFavorited?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
-  price: Scalars['Int'];
   productType: Scalars['String'];
   rating?: Maybe<Scalars['Float']>;
   reviews?: Maybe<Array<Maybe<Review>>>;
   variations: Array<ProductVariation>;
 };
 
-export type ProductAddToCartBtn = {
-  __typename?: 'ProductAddToCartBtn';
-  label?: Maybe<Scalars['String']>;
-};
-
-export type ProductDescription = {
-  __typename?: 'ProductDescription';
-  description: Scalars['String'];
-  label: Scalars['String'];
+export type ProductData = {
+  __typename?: 'ProductData';
+  product: ProductSummary;
+  productVariation: ProductVariation;
 };
 
 export type ProductForm = {
   __typename?: 'ProductForm';
-  productAddToCartBtn?: Maybe<SubmitButton>;
-  productQuantityField?: Maybe<ProductQuantityField>;
+  quantityField: QuantityField;
+  submit: SubmitButton;
 };
 
 export type ProductGallery = {
   __typename?: 'ProductGallery';
-  images?: Maybe<Array<Maybe<Scalars['String']>>>;
+  images: Array<Images>;
 };
 
 export type ProductHeader = {
   __typename?: 'ProductHeader';
   isLiked?: Maybe<Scalars['Boolean']>;
-  productStats?: Maybe<ProductStats>;
-  subtitle: Scalars['String'];
+  price: Scalars['Int'];
+  rating: Scalars['Float'];
+  reviewCount?: Maybe<Scalars['Int']>;
+  size: Scalars['String'];
   title: Scalars['String'];
+  variationName: Scalars['String'];
 };
 
 export type ProductInfo = {
   __typename?: 'ProductInfo';
-  productDescription?: Maybe<ProductDescription>;
-  productVariationDisplay?: Maybe<ProductVariationDisplay>;
-};
-
-export type ProductPageData = {
-  __typename?: 'ProductPageData';
-  product: Product;
+  description: Scalars['String'];
+  variations: Array<ProductVariationSummary>;
 };
 
 export type ProductPageUi = {
   __typename?: 'ProductPageUi';
+  productData: ProductData;
   productForm?: Maybe<ProductForm>;
   productGallery?: Maybe<ProductGallery>;
   productHeader?: Maybe<ProductHeader>;
   productInfo?: Maybe<ProductInfo>;
-  productPageData: ProductPageData;
-  productPrice?: Maybe<ProductPrice>;
-};
-
-
-export type ProductPageUiProductGalleryArgs = {
-  input?: InputMaybe<ProductGalleryInput>;
 };
 
 export type ProductPageUiInput = {
-  productId: Scalars['ID'];
+  __typename?: 'ProductPageUiInput';
+  productVariationId: Scalars['ID'];
 };
 
 export type ProductPageUiResult = NotFoundError | ProductPageUi;
-
-export type ProductPrice = {
-  __typename?: 'ProductPrice';
-  label: Scalars['String'];
-  price: Scalars['Int'];
-};
-
-export type ProductQuantityField = {
-  __typename?: 'ProductQuantityField';
-  label?: Maybe<Scalars['String']>;
-  max?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
-};
-
-export type ProductStats = {
-  __typename?: 'ProductStats';
-  rating?: Maybe<Scalars['Float']>;
-  reviewCount?: Maybe<Scalars['Int']>;
-};
 
 export type ProductVariation = {
   __typename?: 'ProductVariation';
   color: Scalars['String'];
   colorHex: Scalars['String'];
   id: Scalars['ID'];
-  images: Array<Scalars['String']>;
+  images: Array<Images>;
+  price: Scalars['Int'];
   size: Scalars['String'];
+  variationName: Scalars['String'];
 };
 
-export type ProductVariationDisplay = {
-  __typename?: 'ProductVariationDisplay';
+export type ProductVariationSummary = {
+  __typename?: 'ProductVariationSummary';
+  color: Scalars['String'];
+  colorHex: Scalars['String'];
+  id: Scalars['ID'];
+  size: Scalars['String'];
+  variationName: Scalars['String'];
+};
+
+export type QuantityField = {
+  __typename?: 'QuantityField';
   label: Scalars['String'];
-  variationOptions?: Maybe<Array<Maybe<VariationOption>>>;
+  max: Scalars['Int'];
+  min: Scalars['Int'];
 };
 
 export type Query = {
@@ -341,7 +330,7 @@ export type Query = {
   libraryPage?: Maybe<LibraryPage>;
   login?: Maybe<LoginResult>;
   loginPageUi: LoginPageUi;
-  productPageUi?: Maybe<ProductPageUiResult>;
+  productPageUi: ProductPageUiResult;
   signupPageUi: SignupPageUi;
 };
 
@@ -434,15 +423,16 @@ export type User = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type VariationOption = {
-  __typename?: 'VariationOption';
-  color: Scalars['String'];
-  colorHex: Scalars['String'];
-  variationId: Scalars['ID'];
-};
-
-export type ProductGalleryInput = {
-  variationId: Scalars['ID'];
+export type ProductSummary = {
+  __typename?: 'productSummary';
+  categories: Array<Scalars['String']>;
+  description: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  productType: Scalars['String'];
+  rating?: Maybe<Scalars['Float']>;
+  searchTags: Array<Scalars['String']>;
+  variations: Array<ProductVariationSummary>;
 };
 
 
@@ -522,6 +512,7 @@ export type ResolversTypes = {
   ForgotPasswordLink: ResolverTypeWrapper<ForgotPasswordLink>;
   HomePage: ResolverTypeWrapper<HomePage>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Images: ResolverTypeWrapper<Images>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   InvalidCredentialsError: ResolverTypeWrapper<InvalidCredentialsError>;
   InvalidFieldError: ResolverTypeWrapper<InvalidFieldError>;
@@ -543,21 +534,17 @@ export type ResolversTypes = {
   PasswordField: ResolverTypeWrapper<PasswordField>;
   PaymentMethod: PaymentMethod;
   Product: ResolverTypeWrapper<Product>;
-  ProductAddToCartBtn: ResolverTypeWrapper<ProductAddToCartBtn>;
-  ProductDescription: ResolverTypeWrapper<ProductDescription>;
+  ProductData: ResolverTypeWrapper<ProductData>;
   ProductForm: ResolverTypeWrapper<ProductForm>;
   ProductGallery: ResolverTypeWrapper<ProductGallery>;
   ProductHeader: ResolverTypeWrapper<ProductHeader>;
   ProductInfo: ResolverTypeWrapper<ProductInfo>;
-  ProductPageData: ResolverTypeWrapper<ProductPageData>;
   ProductPageUi: ResolverTypeWrapper<ProductPageUi>;
-  ProductPageUiInput: ProductPageUiInput;
+  ProductPageUiInput: ResolverTypeWrapper<ProductPageUiInput>;
   ProductPageUiResult: ResolversTypes['NotFoundError'] | ResolversTypes['ProductPageUi'];
-  ProductPrice: ResolverTypeWrapper<ProductPrice>;
-  ProductQuantityField: ResolverTypeWrapper<ProductQuantityField>;
-  ProductStats: ResolverTypeWrapper<ProductStats>;
   ProductVariation: ResolverTypeWrapper<ProductVariation>;
-  ProductVariationDisplay: ResolverTypeWrapper<ProductVariationDisplay>;
+  ProductVariationSummary: ResolverTypeWrapper<ProductVariationSummary>;
+  QuantityField: ResolverTypeWrapper<QuantityField>;
   Query: ResolverTypeWrapper<{}>;
   Review: ResolverTypeWrapper<Review>;
   ShippingType: ShippingType;
@@ -571,8 +558,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   SubmitButton: ResolverTypeWrapper<SubmitButton>;
   User: ResolverTypeWrapper<User>;
-  VariationOption: ResolverTypeWrapper<VariationOption>;
-  productGalleryInput: ProductGalleryInput;
+  productSummary: ResolverTypeWrapper<ProductSummary>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -588,6 +574,7 @@ export type ResolversParentTypes = {
   ForgotPasswordLink: ForgotPasswordLink;
   HomePage: HomePage;
   ID: Scalars['ID'];
+  Images: Images;
   Int: Scalars['Int'];
   InvalidCredentialsError: InvalidCredentialsError;
   InvalidFieldError: InvalidFieldError;
@@ -607,21 +594,17 @@ export type ResolversParentTypes = {
   OrderItem: OrderItem;
   PasswordField: PasswordField;
   Product: Product;
-  ProductAddToCartBtn: ProductAddToCartBtn;
-  ProductDescription: ProductDescription;
+  ProductData: ProductData;
   ProductForm: ProductForm;
   ProductGallery: ProductGallery;
   ProductHeader: ProductHeader;
   ProductInfo: ProductInfo;
-  ProductPageData: ProductPageData;
   ProductPageUi: ProductPageUi;
   ProductPageUiInput: ProductPageUiInput;
   ProductPageUiResult: ResolversParentTypes['NotFoundError'] | ResolversParentTypes['ProductPageUi'];
-  ProductPrice: ProductPrice;
-  ProductQuantityField: ProductQuantityField;
-  ProductStats: ProductStats;
   ProductVariation: ProductVariation;
-  ProductVariationDisplay: ProductVariationDisplay;
+  ProductVariationSummary: ProductVariationSummary;
+  QuantityField: QuantityField;
   Query: {};
   Review: Review;
   SignupForm: SignupForm;
@@ -633,8 +616,7 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   SubmitButton: SubmitButton;
   User: User;
-  VariationOption: VariationOption;
-  productGalleryInput: ProductGalleryInput;
+  productSummary: ProductSummary;
 };
 
 export type AddressResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
@@ -685,6 +667,15 @@ export type ForgotPasswordLinkResolvers<ContextType = IGraphqlContext, ParentTyp
 export type HomePageResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['HomePage'] = ResolversParentTypes['HomePage']> = {
   library?: Resolver<Maybe<ResolversTypes['Library']>, ParentType, ContextType, Partial<HomePageLibraryArgs>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ImagesResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['Images'] = ResolversParentTypes['Images']> = {
+  alt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  height?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  width?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -801,7 +792,6 @@ export type ProductResolvers<ContextType = IGraphqlContext, ParentType extends R
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isFavorited?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   productType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   reviews?: Resolver<Maybe<Array<Maybe<ResolversTypes['Review']>>>, ParentType, ContextType>;
@@ -809,54 +799,51 @@ export type ProductResolvers<ContextType = IGraphqlContext, ParentType extends R
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProductAddToCartBtnResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductAddToCartBtn'] = ResolversParentTypes['ProductAddToCartBtn']> = {
-  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ProductDescriptionResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductDescription'] = ResolversParentTypes['ProductDescription']> = {
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type ProductDataResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductData'] = ResolversParentTypes['ProductData']> = {
+  product?: Resolver<ResolversTypes['productSummary'], ParentType, ContextType>;
+  productVariation?: Resolver<ResolversTypes['ProductVariation'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProductFormResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductForm'] = ResolversParentTypes['ProductForm']> = {
-  productAddToCartBtn?: Resolver<Maybe<ResolversTypes['SubmitButton']>, ParentType, ContextType>;
-  productQuantityField?: Resolver<Maybe<ResolversTypes['ProductQuantityField']>, ParentType, ContextType>;
+  quantityField?: Resolver<ResolversTypes['QuantityField'], ParentType, ContextType>;
+  submit?: Resolver<ResolversTypes['SubmitButton'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProductGalleryResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductGallery'] = ResolversParentTypes['ProductGallery']> = {
-  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  images?: Resolver<Array<ResolversTypes['Images']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProductHeaderResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductHeader'] = ResolversParentTypes['ProductHeader']> = {
   isLiked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  productStats?: Resolver<Maybe<ResolversTypes['ProductStats']>, ParentType, ContextType>;
-  subtitle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  rating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  reviewCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variationName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProductInfoResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductInfo'] = ResolversParentTypes['ProductInfo']> = {
-  productDescription?: Resolver<Maybe<ResolversTypes['ProductDescription']>, ParentType, ContextType>;
-  productVariationDisplay?: Resolver<Maybe<ResolversTypes['ProductVariationDisplay']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ProductPageDataResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPageData'] = ResolversParentTypes['ProductPageData']> = {
-  product?: Resolver<ResolversTypes['Product'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variations?: Resolver<Array<ResolversTypes['ProductVariationSummary']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ProductPageUiResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPageUi'] = ResolversParentTypes['ProductPageUi']> = {
+  productData?: Resolver<ResolversTypes['ProductData'], ParentType, ContextType>;
   productForm?: Resolver<Maybe<ResolversTypes['ProductForm']>, ParentType, ContextType>;
-  productGallery?: Resolver<Maybe<ResolversTypes['ProductGallery']>, ParentType, ContextType, Partial<ProductPageUiProductGalleryArgs>>;
+  productGallery?: Resolver<Maybe<ResolversTypes['ProductGallery']>, ParentType, ContextType>;
   productHeader?: Resolver<Maybe<ResolversTypes['ProductHeader']>, ParentType, ContextType>;
   productInfo?: Resolver<Maybe<ResolversTypes['ProductInfo']>, ParentType, ContextType>;
-  productPageData?: Resolver<ResolversTypes['ProductPageData'], ParentType, ContextType>;
-  productPrice?: Resolver<Maybe<ResolversTypes['ProductPrice']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductPageUiInputResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPageUiInput'] = ResolversParentTypes['ProductPageUiInput']> = {
+  productVariationId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -864,37 +851,30 @@ export type ProductPageUiResultResolvers<ContextType = IGraphqlContext, ParentTy
   __resolveType: TypeResolveFn<'NotFoundError' | 'ProductPageUi', ParentType, ContextType>;
 };
 
-export type ProductPriceResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductPrice'] = ResolversParentTypes['ProductPrice']> = {
-  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ProductQuantityFieldResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductQuantityField'] = ResolversParentTypes['ProductQuantityField']> = {
-  label?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  max?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  min?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type ProductStatsResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductStats'] = ResolversParentTypes['ProductStats']> = {
-  rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  reviewCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type ProductVariationResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductVariation'] = ResolversParentTypes['ProductVariation']> = {
   color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   colorHex?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  images?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Array<ResolversTypes['Images']>, ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   size?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variationName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ProductVariationDisplayResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductVariationDisplay'] = ResolversParentTypes['ProductVariationDisplay']> = {
+export type ProductVariationSummaryResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['ProductVariationSummary'] = ResolversParentTypes['ProductVariationSummary']> = {
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  colorHex?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variationName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QuantityFieldResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['QuantityField'] = ResolversParentTypes['QuantityField']> = {
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  variationOptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['VariationOption']>>>, ParentType, ContextType>;
+  max?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  min?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -904,7 +884,7 @@ export type QueryResolvers<ContextType = IGraphqlContext, ParentType extends Res
   libraryPage?: Resolver<Maybe<ResolversTypes['LibraryPage']>, ParentType, ContextType>;
   login?: Resolver<Maybe<ResolversTypes['LoginResult']>, ParentType, ContextType, RequireFields<QueryLoginArgs, 'input'>>;
   loginPageUi?: Resolver<ResolversTypes['LoginPageUi'], ParentType, ContextType>;
-  productPageUi?: Resolver<Maybe<ResolversTypes['ProductPageUiResult']>, ParentType, ContextType, RequireFields<QueryProductPageUiArgs, 'input'>>;
+  productPageUi?: Resolver<ResolversTypes['ProductPageUiResult'], ParentType, ContextType, RequireFields<QueryProductPageUiArgs, 'input'>>;
   signupPageUi?: Resolver<ResolversTypes['SignupPageUi'], ParentType, ContextType>;
 };
 
@@ -968,10 +948,15 @@ export type UserResolvers<ContextType = IGraphqlContext, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type VariationOptionResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['VariationOption'] = ResolversParentTypes['VariationOption']> = {
-  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  colorHex?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  variationId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+export type ProductSummaryResolvers<ContextType = IGraphqlContext, ParentType extends ResolversParentTypes['productSummary'] = ResolversParentTypes['productSummary']> = {
+  categories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  productType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  searchTags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  variations?: Resolver<Array<ResolversTypes['ProductVariationSummary']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -984,6 +969,7 @@ export type Resolvers<ContextType = IGraphqlContext> = {
   FirstnameField?: FirstnameFieldResolvers<ContextType>;
   ForgotPasswordLink?: ForgotPasswordLinkResolvers<ContextType>;
   HomePage?: HomePageResolvers<ContextType>;
+  Images?: ImagesResolvers<ContextType>;
   InvalidCredentialsError?: InvalidCredentialsErrorResolvers<ContextType>;
   InvalidFieldError?: InvalidFieldErrorResolvers<ContextType>;
   InvalidInputError?: InvalidInputErrorResolvers<ContextType>;
@@ -1001,20 +987,17 @@ export type Resolvers<ContextType = IGraphqlContext> = {
   OrderItem?: OrderItemResolvers<ContextType>;
   PasswordField?: PasswordFieldResolvers<ContextType>;
   Product?: ProductResolvers<ContextType>;
-  ProductAddToCartBtn?: ProductAddToCartBtnResolvers<ContextType>;
-  ProductDescription?: ProductDescriptionResolvers<ContextType>;
+  ProductData?: ProductDataResolvers<ContextType>;
   ProductForm?: ProductFormResolvers<ContextType>;
   ProductGallery?: ProductGalleryResolvers<ContextType>;
   ProductHeader?: ProductHeaderResolvers<ContextType>;
   ProductInfo?: ProductInfoResolvers<ContextType>;
-  ProductPageData?: ProductPageDataResolvers<ContextType>;
   ProductPageUi?: ProductPageUiResolvers<ContextType>;
+  ProductPageUiInput?: ProductPageUiInputResolvers<ContextType>;
   ProductPageUiResult?: ProductPageUiResultResolvers<ContextType>;
-  ProductPrice?: ProductPriceResolvers<ContextType>;
-  ProductQuantityField?: ProductQuantityFieldResolvers<ContextType>;
-  ProductStats?: ProductStatsResolvers<ContextType>;
   ProductVariation?: ProductVariationResolvers<ContextType>;
-  ProductVariationDisplay?: ProductVariationDisplayResolvers<ContextType>;
+  ProductVariationSummary?: ProductVariationSummaryResolvers<ContextType>;
+  QuantityField?: QuantityFieldResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Review?: ReviewResolvers<ContextType>;
   SignupForm?: SignupFormResolvers<ContextType>;
@@ -1024,6 +1007,6 @@ export type Resolvers<ContextType = IGraphqlContext> = {
   SignupResult?: SignupResultResolvers<ContextType>;
   SubmitButton?: SubmitButtonResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-  VariationOption?: VariationOptionResolvers<ContextType>;
+  productSummary?: ProductSummaryResolvers<ContextType>;
 };
 

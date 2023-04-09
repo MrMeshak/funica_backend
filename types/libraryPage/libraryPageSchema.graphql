@@ -1,0 +1,38 @@
+type Query {
+  libraryPage: LibraryPage
+}
+
+type LibraryPage {
+  Library(filterCategory: Category, filterPrice: FilterPrice, sort: Sort): Library
+}
+
+type Library {
+  filterCategory: Category
+  filterPrice: FilterPrice
+  sort: Sort
+  products: [Product]
+}
+
+type FilterPrice {
+  min: Int
+  max: Int
+}
+
+enum Category {
+  ALL
+  SOFA
+  CHAIR
+  TABLE
+  KITCHEN
+  BED
+  BATH
+}
+
+enum Sort {
+  PRICE_ASC
+  PRICE_DESC
+  RECENT_ASC
+  RECENT_DEC
+  RATING_ASC
+  RATING_DEC
+}

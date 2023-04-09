@@ -97,8 +97,6 @@ model Product {
   searchTags  String[]
   description String
 
-  price Int
-
   rating Float
 
   variations ProductVariation[]
@@ -111,15 +109,28 @@ model Product {
 model ProductVariation {
   id         String    @id
   isArchived DateTime?
+  variationName       String
+  price      Int
   color      String
   colorHex   String
   size       String
-  images     String[]
+  images     Image[]
 
   product    Product     @relation(fields: [productId], references: [id])
   productId  String
   orderItems OrderItem[]
 }
+
+model Image {
+  id        String    @id
+  alt     String
+  url       String
+  height    Int
+  width     Int
+  product   ProductVariation @relation(fields: [productVariationId], references: [id])
+  productVariationId String
+}
+
 
 model Review {
   id         String    @id

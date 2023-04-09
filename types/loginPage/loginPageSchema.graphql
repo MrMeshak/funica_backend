@@ -1,0 +1,21 @@
+type Query {
+  loginPageUi: LoginPageUi!
+}
+
+type LoginPageUi {
+  header: LoginHeader!
+  form: LoginForm!
+  forgotPasswordLink: ForgotPasswordLink!
+  signupLink: SignupLink!
+}
+
+type LoginHeader {
+  title: String!
+  subtitle: String
+}
+
+type LoginForm {
+  email: EmailField!
+  password: PasswordField!
+  submit: SubmitButton!
+}
